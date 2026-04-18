@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى أسماء</title>
+    <style>
+        /* استيراد خط عربي أنيق */
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+            font-family: 'Tajawal', sans-serif;
+            overflow: hidden;
+            color: #333;
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            text-align: center;
+            width: 85%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px 20px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* تنسيق الصفحات */
+        .page {
+            display: none;
+            animation: fadeIn 1.2s ease-in-out forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h1 {
+            color: #d81b60;
+            font-size: 1.6rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .message {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        /* تنسيق الأزرار */
+        button {
+            background: linear-gradient(45deg, #ff80ab, #ff4081);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 64, 129, 0.4);
+        }
+
+        /* تنسيق كلمة Always */
+        .always-text {
+            font-size: 4.5rem;
+            color: rgba(0, 150, 255, 0.35); /* أزرق ملون خفيف */
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            letter-spacing: 3px;
+            animation: pulse 2.5s infinite ease-in-out;
+        }
+
+        /* حركات الأنيميشن */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 0.3; }
+        }
+
+        /* القلوب المتطايرة */
+        .heart {
+            position: absolute;
+            color: #ff80ab;
+            font-size: 20px;
+            pointer-events: none;
+            animation: moveUp 6s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes moveUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="player" style="position: absolute; width: 0; height: 0; pointer-events: none;"></div>
+
+    <div class="container">
+        <div id="page1" class="page active">
+            <h1>نعرف بعض اكتر من 17 سنه لحد دلوقتي</h1>
+            <button onclick="goToPage(2)">التالي</button>
+        </div>
+
+        <div id="page2" class="page">
+            <p class="message">
+                ازيك يا اسماء ده حاجه تعبر عن الي فقلبي ليكي وبجد انت مش مجرد شخص عادي فحياتي انت ليكي منزله محدش هيوصل ليها ابدا ربنا يخليكي يارب وتكوني بخير دايما love you يا قمر😘♥️
+            </p>
+            <button onclick="goToPage(3)">التالي</button>
+        </div>
+
+        <div id="page3" class="page">
+            <h2 class="always-text">always</h2>
+        </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        let player;
+
+        // تجهيز مشغل اليوتيوب
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: 'fKopy74weus', // كود أغنية Somewhere Only We Know
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'modestbranding': 1,
+                    'rel': 0
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // المشغل جاهز
+        }
+
+        function goToPage(pageNumber) {
+            // إخفاء الصفحات الحالية
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // إظهار الصفحة المطلوبة
+            const targetPage = document.getElementById('page' + pageNumber);
+            targetPage.classList.add('active');
+
+            // تشغيل الأغنية عند الانتقال للصفحة الثانية
+            if (pageNumber === 2) {
+                if (player && player.playVideo) {
+                    player.playVideo();
+                }
+            }
+        }
+
+        // تأثير القلوب المتطايرة
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+</body>
+</html>
